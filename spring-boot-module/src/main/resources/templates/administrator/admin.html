@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/menuadmin :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/menuadmin :: header"/>
+
+<div class="container">
+    <h1>Administrator</h1>
+    <div class="menu-template">
+        <h2>1. <a th:href="@{/admin/users}">Users</a></h2>
+        <h2>2. <a th:href="@{/admin/add_user}">Add user</a></h2>
+    </div>
+    <div class="starter-template">
+        <!--<h1>Administrator</h1>-->
+
+        <!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

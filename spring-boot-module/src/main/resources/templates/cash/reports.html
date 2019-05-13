@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf + Spring Security</title>
+
+    <div th:replace="fragments/menucash :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/menucash :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>CASH reports</h1>
+        <h2>1. <a th:href="@{/cash/reports/report1}">report on buying of currency</a></h2>
+        <h2>2. <a th:href="@{/cash/reports/report2}">report on selling of currency</a></h2>
+        <h2>3. <a th:href="@{/cash/reports/report3}">report on utility payment</a></h2>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

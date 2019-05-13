@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/menuadmin :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/menuadmin :: header"/>
+
+<div class="container">
+
+    !!!!!!!!!!!!!!!!!!!!!!!!
+    <form action="#" th:action="@{/admin/delete_user}" th:object="${wrapper}" method="post">
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Логин</th>
+                <th>Пароль</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Email</th>
+                <th>RoleId</th>
+                <th>chek</th>
+            </tr>
+            </thead>
+
+
+            <tbody>
+            <tr th:each="currentClient, stat : ${wrapper.clientList}">
+
+                <!--<td><input type="checkbox" th:name="ids"-->
+                <!--th:value="${currentClient.id}"/></td>-->
+                <td th:text="${currentClient.id}"></td>
+                <td th:text="${currentClient.username}"></td>
+                <td th:text="${currentClient.password}"></td>
+                <td th:text="${currentClient.lastName}"></td>
+                <td th:text="${currentClient.firstName}"></td>
+                <td th:text="${currentClient.patronymic}"></td>
+                <td th:text="${currentClient.email}"></td>
+                <td th:text="${currentClient.roleId}"></td>
+                <td><input th:if="${currentClient.id !=1}" type="checkbox" th:name="ids"
+                           th:value="${currentClient.id}" th:checked="${currentClient.isNotActive}"/></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="field">
+            <button type="submit" value="submit" class="btn btn-success">Submit</button>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

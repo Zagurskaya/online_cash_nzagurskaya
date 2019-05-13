@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/menuadmin :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/menuadmin :: header"/>
+
+<div class="container">
+
+    <H5>UPDATE</H5>
+
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Логин</th>
+            <th>Пароль</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Email</th>
+            <th>RoleId</th>
+            <th>chek</th>
+        </tr>
+        </thead>
+        <tbody>
+        <form action="#" th:action="@{/admin/update_user}" th:object="${user}" method="post">
+            <tr th:each="user, stat : ${users}">
+
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.password}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.patronymic}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.roleId}"></td>
+                <td><input type="checkbox" th:name="id"
+                           th:value="${user.id}" th:checked="${user.isNotActive}"/></td>
+            </tr>
+        </form>
+        </tbody>
+
+    </table>
+    <div class="field">
+        <button type="submit" value="submit" class="btn btn-success">Submit</button>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

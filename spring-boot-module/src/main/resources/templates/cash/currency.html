@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf + Spring Security</title>
+
+    <div th:replace="fragments/menucash :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/menucash :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>CASH</h1>
+        <h2>1. <a th:href="@{/cash/currency/all_currencies}">Show all currency</a></h2>
+        <h2>2. <a th:href="@{/cash/currency/ratecb}">Rate NB</a></h2>
+        <h2>3. <a th:href="@{/cash/currency/ratenb}">Rate CB</a></h2>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>
