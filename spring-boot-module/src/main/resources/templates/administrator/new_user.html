@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/menuadmin :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/menuadmin :: header"/>
+
+<div class="container">
+
+    <form class="form-horizontal" action="/admin/users/new" method="post">
+        <fieldset>
+
+            <legend>Add User</legend>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="username">Логин</label>
+                <div class="col-md-4">
+                    <input id="username" name="username" th:value="testLogin" type="text" placeholder=""
+                           class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="lastName">Фамилия</label>
+                <div class="col-md-4">
+                    <input id="lastName" name="lastName" th:value="testLastName" type="lastName" placeholder=""
+                           class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="firstName">Имя</label>
+                <div class="col-md-4">
+                    <input id="firstName" name="firstName" th:value="testFirstName" type="firstName" placeholder=""
+                           class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="patronymic">Отчество</label>
+                <div class="col-md-4">
+                    <input id="patronymic" name="patronymic" th:value="testPatronymic" type="patronymic" placeholder=""
+                           class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="roleId">Роль</label>
+                <div class="col-md-4">
+                    <select id="roleId" name="roleId" class="form-control">
+                        <option th:value="3">Controller</option>
+                        <option th:value="2">Kassir</option>
+                        <option th:value="1">Administrator</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="adduser"></label>
+                <div class="col-md-4">
+                    <button id="adduser" name="adduser" class="btn btn-primary">Add User</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+
+</div>
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

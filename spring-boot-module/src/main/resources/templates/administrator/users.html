@@ -8,38 +8,74 @@
 <div th:replace="fragments/menuadmin :: header"/>
 
 <div class="container">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <H4> Users</H4>
-    -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    <div class="row">
-        <div class=col-md-2>|Логин</div>
-        <div class=col-md-3>|ФИО</div>
-        <div class=col-md-2>|Emil</div>
-        <div class=col-md-2>|Role</div>
-        <div class=col-md-1>|</div>
-    </div>
-    --------------------------------------------------------------------------------------------------------------------------------------
-    <div th:each="user : ${users}">
-        <div class="row">
-            <div class="col-md-2"><span th:text="${user.username}"></span></div>
-            <div class="col-md-1"><span th:text="${user.lastName}"></span></div>
-            <div class="col-md-1"><span th:text="${user.firstName}"></span></div>
-            <div class="col-md-1"><span th:text="${user.patronymic}"></span></div>
-            <div class="col-md-2"><span th:text="${user.email}"></span></div>
-            <div class="col-md-2">
-                <div th:each= "roles : ${roles}"
-                     th:if ="${user.roleId==roles.id}"><span th:text="${roles.name}"></span></th:if>
-                </div>
-            </div>
-            <div class="col-md-1">|</div>
-        </div>
-    </div>
-    --------------------------------------------------------------------------------------------------------------------------------------
 
+    <H2>Users </H2>
+    <form action="/admin/users/delete" th:object="${users}" method="post">
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Логин</th>
+                <th>Пароль</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Role</th>
+                <th>Delete</th>
+                <th>New Password</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user, stat : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.password}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.patronymic}"></td>
+
+                <td>
+                    <form th:object="${Role}">
+                        <th:block th:if="${user.id ==1}">
+                            <option th:each="role,stat:${roles}"
+                                    th:value="${role.id}"
+                                    th:if="${user.id == role.id}"
+                                    th:text="${role.name}">
+                        </th:block>
+
+                        <th:block th:if="${user.id !=1}">
+                            <input hidden value="#" th:attr="value=${user.id}" th:name="id"/>
+                            <select name="role" th:name="roleId" required>
+                                <option th:each="role,stat:${roles}"
+                                        th:value="${role.id}"
+                                        th:text="${role.name}"
+                                        th:selected="${user.roleId == role.id}">
+                                </option>
+                            </select>
+                        </th:block>
+
+                        <th:block th:if="${user.id !=1}">
+                            &nbsp;
+                            <button class="btn btn-light btn-xs" method="post" action="/admin/users/update_role">
+                                Update
+                            </button>
+                        </th:block>
+                    </form>
+                </td>
+                <td><input th:if="${user.id !=1}" type="checkbox" th:name="ids"
+                           th:value="${user.id}" th:checked="${user.isNotActive}"/></td>
+                <td>
+                    <button class="btn btn-light btn-xs">Update Password
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="field">
+            <button type="submit" value="submit" class="btn btn-success">Delete users</button>
+        </div>
+    </form>
 </div>
 <div th:replace="fragments/footer :: footer"/>
 

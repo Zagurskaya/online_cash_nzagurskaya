@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS `zagurskaya_cash`.`users` (
   `lastName` VARCHAR(40) NOT NULL,
   `firstName` VARCHAR(20) NOT NULL,
   `patronymic` VARCHAR(40) NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
   `roleId` INT NOT NULL DEFAULT 2,
   `isNotActive` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
@@ -282,11 +281,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `zagurskaya_cash`.`endDayReport`
+-- Table `zagurskaya_cash`.`reviews`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `zagurskaya_cash`.`endDayReport` ;
+DROP TABLE IF EXISTS `zagurskaya_cash`.`reviews` ;
 
-CREATE TABLE IF NOT EXISTS `zagurskaya_cash`.`endDayReport` (
+CREATE TABLE IF NOT EXISTS `zagurskaya_cash`.`reviews` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NULL,
   `userId` INT NOT NULL,
@@ -323,10 +322,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `zagurskaya_cash`;
-INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `email`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'admin', '$2a$12$zOaadmWpahyYjytjhOzZ3eKAcl3MJAc8CPR/9D76vw.d/vIuCk8u2', 'Adminov', 'Admin', 'Adminovish', 'admin@gmail.com', 1, 0);
-INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `email`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'ivanova', '$2a$10$7FdrlLO1NjHw4zyv2pEE7.oMRm575A0nIncaYMDrfYDaF0edfemhS', 'Ivanova', 'Mariya', 'Ivanovna', 'ivanova@gmail.com', 2, 0);
-INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `email`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'petrova', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Petrova', 'Svetlana', 'Petrova', 'petrova@gmail.com', 3, 0);
-
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'admin', '$2a$12$zOaadmWpahyYjytjhOzZ3eKAcl3MJAc8CPR/9D76vw.d/vIuCk8u2', 'Adminov', 'Admin', 'Adminovish', 1, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'ivanova', '$2a$10$7FdrlLO1NjHw4zyv2pEE7.oMRm575A0nIncaYMDrfYDaF0edfemhS', 'Ivanova', 'Mariya', 'Ivanovna', 2, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'petrova', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Petrova', 'Svetlana', 'Petrova', 3, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'atest1', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov1', 'Test1', 'Testovich1', 2, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'test2', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov2', 'Test2', 'Testovich2', 2, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'test3', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov3', 'Test3', 'Testovich3', 2, 1);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'test4', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov4', 'Test4', 'Testovich4', 2, 1);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'test5', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov5', 'Test5', 'Testovich5', 2, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'test6', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov6', 'Test6', 'Testovich6', 2, 0);
+INSERT INTO `zagurskaya_cash`.`users` (`id`, `username`, `password`, `lastName`, `firstName`, `patronymic`, `roleId`, `isNotActive`) VALUES (DEFAULT, 'test7', '$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi', 'Testov7', 'Test7', 'Testovich7', 2, 0);
 COMMIT;
 
 
@@ -495,14 +500,14 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `zagurskaya_cash`.`endDayReport`
+-- Data for table `zagurskaya_cash`.`reviews`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `zagurskaya_cash`;
-INSERT INTO `zagurskaya_cash`.`endDayReport` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-01', 2, 'new rateKB $ 2.51', 1);
-INSERT INTO `zagurskaya_cash`.`endDayReport` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-01', 3, 'new rateKB $ 2.52', 1);
-INSERT INTO `zagurskaya_cash`.`endDayReport` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-02', 2, 'new rateKB $ 2.53', 1);
-INSERT INTO `zagurskaya_cash`.`endDayReport` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-02', 3, 'new rateKB $ 2.54', 0);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-01', 2, 'new rateKB $ 2.51, everything is bad', 1);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-01', 3, 'new rateKB $ 2.52, everything is bad', 1);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-02', 2, 'new rateKB $ 2.53, everything is bad', 1);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-02', 3, 'new rateKB $ 2.54, everything is bad', 0);
 
 COMMIT;
 
