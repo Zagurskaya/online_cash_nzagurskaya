@@ -19,7 +19,6 @@
                 <th>Дата</th>
                 <th>Пользователь</th>
                 <th>Описание</th>
-                <th>Показывать</th>
                 <th>Delete</th>
             </tr>
             </thead>
@@ -30,15 +29,6 @@
                 <td th:text="${review.userId}"></td>
                 <td th:text="${review.description}"></td>
 
-                <td>
-                    <form th:object="${reviews}">
-                        <input type="checkbox" th:name="ids"
-                               th:value="${review.id}" th:checked="${review.isOpen}"/>
-                        <button class="btn btn-light btn-xs" method="post" action="/admin/reviews/update">
-                            Update
-                        </button>
-                    </form>
-                </td>
                 <td><input type="checkbox" th:name="ids"
                            th:value="${review.id}" /></td>
                 <td>

@@ -28,4 +28,5 @@ public class RoleDTO {
     public void setName(String name) {
         this.name = name;
     }
+
 }

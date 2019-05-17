@@ -8,4 +8,5 @@ public interface UserConverter {
     UserDTO toDTO(User user);
 
     User toEntity(UserDTO userDTO);
+
 }

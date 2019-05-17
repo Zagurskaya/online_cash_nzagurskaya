@@ -36,7 +36,7 @@
                 <td th:text="${user.patronymic}"></td>
 
                 <td>
-                    <form th:object="${Role}">
+                    <form th:object="${Role}" method="post" action="/admin/users/update_role">
                         <th:block th:if="${user.id ==1}">
                             <option th:each="role,stat:${roles}"
                                     th:value="${role.id}"
@@ -57,7 +57,8 @@
 
                         <th:block th:if="${user.id !=1}">
                             &nbsp;
-                            <button class="btn btn-light btn-xs" method="post" action="/admin/users/update_role">
+                            <button class="btn btn-light btn-xs">
+                                <!--<button class="btn btn-light btn-xs" method="post" action="/admin/users/update_role">-->
                                 Update
                             </button>
                         </th:block>
@@ -66,8 +67,10 @@
                 <td><input th:if="${user.id !=1}" type="checkbox" th:name="ids"
                            th:value="${user.id}" th:checked="${user.isNotActive}"/></td>
                 <td>
-                    <button class="btn btn-light btn-xs">Update Password
-                    </button>
+                    <form th:object="${user}" method="post" action="/admin/users/update_password">
+                        <input hidden value="#" th:attr="value=${user.id}" th:name="id"/>
+                        <button class="btn btn-light btn-xs">Update Password </button>
+                    </form>
                 </td>
             </tr>
             </tbody>

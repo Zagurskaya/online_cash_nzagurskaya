@@ -9,7 +9,6 @@ import com.gmail.zagurskaya.online.cash.service.model.UserDTO;
 import com.gmail.zagurskaya.online.cash.web.exception.NotFoundAllUsersException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +28,6 @@ public class AdministratorController {
         this.roleService = roleService;
         this.reviewsService = reviewsService;
     }
-
-    @Autowired
-
 
     @GetMapping("")
     public String getAdminPage() {
@@ -74,7 +70,7 @@ public class AdministratorController {
 
         for (int i = 0; i < ids.length; i++) {
             userService.delete(ids[i]);
-            logger.error("deleted user with id = " + ids[i]);
+            logger.info("deleted user with id = " + ids[i]);
         }
         List<UserDTO> users = userService.getActionUsersSortedByUserName();
         List<RoleDTO> roles = roleService.getRoles();
@@ -147,22 +143,20 @@ public class AdministratorController {
         return "administrator/reviews";
     }
 
-    @PostMapping("/reviews/update")
+    @PostMapping("/reviews/delete")
     public String postUpdateReviewsInAdminPage(
-            @RequestParam("id") Long reviewId,
+            @RequestParam("ids") Long[] ids,
             Model model
     ) throws NotFoundAllUsersException {
-
-        ReviewsDTO review = reviewsService.getReview(reviewId);
-        review.setIsOpen(!reviewsService.getReview(reviewId).getIsOpen());
-        reviewsService.update(review);
-        logger.error("update review witch id = " + reviewId);
-
+        for (int i = 0; i < ids.length; i++) {
+            reviewsService.delete(ids[i]);
+            logger.error("delete delete witch id = " + ids[i]);
+        }
         List<ReviewsDTO> reviews = reviewsService.getReviews();
         List<UserDTO> users = userService.getUsers();
         model.addAttribute("reviews", reviews);
         model.addAttribute("users", users);
-        return "administrator/users";
+        return "administrator/reviews";
     }
     @GetMapping("/exit")
     public String getExitPage() {

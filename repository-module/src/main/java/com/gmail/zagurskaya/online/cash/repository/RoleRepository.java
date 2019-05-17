@@ -11,4 +11,5 @@ public interface RoleRepository {
     List<Role> getRoles(Connection connection);
 
     Role getRole(Connection connection, Long id);
+
     }

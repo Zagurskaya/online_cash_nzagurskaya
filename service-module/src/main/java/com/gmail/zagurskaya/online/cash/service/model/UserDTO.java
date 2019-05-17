@@ -94,6 +94,7 @@ public class UserDTO {
         isNotActive = notActive;
     }
 
+
     @Override
     public String toString() {
         return "UserDTO{" +

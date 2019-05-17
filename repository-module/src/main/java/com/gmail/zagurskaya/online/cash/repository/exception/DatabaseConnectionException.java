@@ -6,4 +6,5 @@ public class DatabaseConnectionException extends RuntimeException {
 
         super(message, e);
     }
+
 }

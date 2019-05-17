@@ -5,7 +5,7 @@ import com.gmail.zagurskaya.online.cash.repository.connection.ConnectionHandler;
 import com.gmail.zagurskaya.online.cash.repository.model.User;
 import com.gmail.zagurskaya.online.cash.service.UserService;
 import com.gmail.zagurskaya.online.cash.service.converter.UserConverter;
-import com.gmail.zagurskaya.online.cash.service.exception.UserServiceImplException;
+import com.gmail.zagurskaya.online.cash.service.exception.UserServiceException;
 import com.gmail.zagurskaya.online.cash.service.model.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             return getUsersWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception with getAll users", e);
+            throw new UserServiceException("Exception with getAll users", e);
         }
     }
 
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception with getAll users", e);
+            throw new UserServiceException("Exception with getAll users", e);
         }
     }
 
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
             return addWitchConnection(connection, userDTO);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in add users", e);
+            throw new UserServiceException("Exception in add users", e);
         }
     }
 
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in add users witch Connection", e);
+            throw new UserServiceException("Exception in add users witch Connection", e);
         }
     }
 
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
             return deleteWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in add users", e);
+            throw new UserServiceException("Exception in add users", e);
         }
     }
 
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in add users witch Connection", e);
+            throw new UserServiceException("Exception in add users witch Connection", e);
         }
     }
     @Override
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
             return updateWitchConnection(connection, userDTO);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in add users", e);
+            throw new UserServiceException("Exception in add users", e);
         }
     }
 
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in add users witch Connection", e);
+            throw new UserServiceException("Exception in add users witch Connection", e);
         }
     }
 
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
             return loadUserByUsernameWitchConnection(connection, name);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in load User By Username", e);
+            throw new UserServiceException("Exception in load User By Username", e);
         }
     }
 
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in load User By Username witch Connection", e);
+            throw new UserServiceException("Exception in load User By Username witch Connection", e);
         }
     }
 
@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
             return getActionUsersSortedByUserNameWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception with getActionUsersSortedByUserName", e);
+            throw new UserServiceException("Exception with getActionUsersSortedByUserName", e);
         }
     }
 
@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception with getActionUsersSortedByUserNameWitchConnection", e);
+            throw new UserServiceException("Exception with getActionUsersSortedByUserNameWitchConnection", e);
         }
     }
 
@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
             return getUserByIdWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in getUserById", e);
+            throw new UserServiceException("Exception in getUserById", e);
         }
     }
 
@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new UserServiceImplException("Exception in getUserByIdWitchConnection", e);
+            throw new UserServiceException("Exception in getUserByIdWitchConnection", e);
         }
     }
     private String randomPasswordWithEncoder(int length) {
@@ -222,7 +222,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public String returnPasswordSameAsLogin(UserDTO userDTO) {
-        return userDTO.getUsername();
+        return encoder(userDTO.getUsername());
     }
 
     private String encoder(String word) {

@@ -20,5 +20,4 @@ public interface UserRepository  {
     List<User> getActionUsersSortedByUserName(Connection connection);
 
     User getUserById(Connection connection, Long id);
-
 }

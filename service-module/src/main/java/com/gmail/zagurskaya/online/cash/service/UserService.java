@@ -22,4 +22,5 @@ public interface UserService {
     UserDTO getUserById(Long id);
 
     String returnPasswordSameAsLogin(UserDTO userDTO);
+
 }

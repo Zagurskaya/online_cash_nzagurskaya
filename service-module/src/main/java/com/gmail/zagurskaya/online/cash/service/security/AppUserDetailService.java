@@ -26,7 +26,6 @@ public class AppUserDetailService implements UserDetailsService {
         this.roleService = roleService;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String name) throws org.springframework.security.core.userdetails.UsernameNotFoundException {
         UserDTO userDTO = userService.loadUserByUsername(name);

@@ -10,4 +10,5 @@ public class NotFoundAllUsersException extends RuntimeException {
 
         super(message, e);
     }
+
 }

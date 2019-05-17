@@ -5,7 +5,7 @@ import com.gmail.zagurskaya.online.cash.repository.connection.ConnectionHandler;
 import com.gmail.zagurskaya.online.cash.repository.model.Reviews;
 import com.gmail.zagurskaya.online.cash.service.ReviewsService;
 import com.gmail.zagurskaya.online.cash.service.converter.ReviewsConverter;
-import com.gmail.zagurskaya.online.cash.service.exception.ReviewsServiceImplException;
+import com.gmail.zagurskaya.online.cash.service.exception.ReviewsServiceException;
 import com.gmail.zagurskaya.online.cash.service.model.ReviewsDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +37,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             return getReportsEndDayWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in getReportsEndDay", e);
+            throw new ReviewsServiceException("Exception in getReportsEndDay", e);
         }
     }
 
@@ -53,7 +53,7 @@ public class ReviewsServiceImpl implements ReviewsService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in getAll witch reviewss", e);
+            throw new ReviewsServiceException("Exception in getAll witch reviewss", e);
         }
     }
 
@@ -63,7 +63,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             return deleteWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in delete reviews", e);
+            throw new ReviewsServiceException("Exception in delete reviews", e);
         }
     }
 
@@ -76,7 +76,7 @@ public class ReviewsServiceImpl implements ReviewsService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in delete reviews witch Connection", e);
+            throw new ReviewsServiceException("Exception in delete reviews witch Connection", e);
         }
     }
 
@@ -86,7 +86,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             return updateWitchConnection(connection, reviewsDTO);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in add reviewss", e);
+            throw new ReviewsServiceException("Exception in add reviewss", e);
         }
     }
 
@@ -101,7 +101,7 @@ public class ReviewsServiceImpl implements ReviewsService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in add reviewss witch Connection", e);
+            throw new ReviewsServiceException("Exception in add reviewss witch Connection", e);
         }
     }
 
@@ -111,7 +111,7 @@ public class ReviewsServiceImpl implements ReviewsService {
             return getReviewsWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in get Reviews Witch Connection ", e);
+            throw new ReviewsServiceException("Exception in get Reviews Witch Connection ", e);
         }
     }
 
@@ -125,7 +125,7 @@ public class ReviewsServiceImpl implements ReviewsService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new ReviewsServiceImplException("Exception in read reviews witch ID", e);
+            throw new ReviewsServiceException("Exception in read reviews witch ID", e);
         }
     }
 }

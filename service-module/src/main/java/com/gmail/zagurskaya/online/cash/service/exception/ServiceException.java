@@ -10,4 +10,5 @@ public class ServiceException extends RuntimeException {
 
         super(message, e);
     }
+
 }

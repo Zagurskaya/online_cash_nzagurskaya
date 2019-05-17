@@ -5,7 +5,7 @@ import com.gmail.zagurskaya.online.cash.repository.connection.ConnectionHandler;
 import com.gmail.zagurskaya.online.cash.repository.model.Role;
 import com.gmail.zagurskaya.online.cash.service.RoleService;
 import com.gmail.zagurskaya.online.cash.service.converter.RoleConverter;
-import com.gmail.zagurskaya.online.cash.service.exception.RoleServiceImplException;
+import com.gmail.zagurskaya.online.cash.service.exception.RoleServiceException;
 import com.gmail.zagurskaya.online.cash.service.model.RoleDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
             return getRolesWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new RoleServiceImplException("Exception with getAll roles", e);
+            throw new RoleServiceException("Exception with getAll roles", e);
         }
     }
 
@@ -56,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new RoleServiceImplException("Exception with getAll roles", e);
+            throw new RoleServiceException("Exception with getAll roles", e);
         }
     }
 
@@ -66,7 +66,7 @@ public class RoleServiceImpl implements RoleService {
             return getRoleWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
-            throw new RoleServiceImplException("Exception in get Role Witch Connection ", e);
+            throw new RoleServiceException("Exception in get Role Witch Connection ", e);
         }
     }
 
@@ -80,7 +80,7 @@ public class RoleServiceImpl implements RoleService {
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
-            throw new RoleServiceImplException("Exception in read role witch ID", e);
+            throw new RoleServiceException("Exception in read role witch ID", e);
         }
     }
 }

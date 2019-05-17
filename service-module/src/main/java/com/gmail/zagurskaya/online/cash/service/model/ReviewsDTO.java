@@ -1,13 +1,21 @@
 package com.gmail.zagurskaya.online.cash.service.model;
 
 import java.sql.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ReviewsDTO {
+    @NotNull
     private Long id;
+    @NotNull
     private Date date;
+    @NotNull
     private Long userId;
+    @NotNull
+    @Size(max = 200)
     private String description;
-    private boolean isOpen;
+    @NotNull
+    private boolean isNotOpen;
 
     public ReviewsDTO() {
     }
@@ -44,12 +52,12 @@ public class ReviewsDTO {
         this.description = description;
     }
 
-    public boolean getIsOpen() {
-        return isOpen;
+    public boolean getIsNotOpen() {
+        return isNotOpen;
     }
 
-    public void setIsOpen(boolean isOpen) {
-        isOpen = isOpen;
+    public void setIsNotOpen(boolean notOpen) {
+        isNotOpen = notOpen;
     }
 
     @Override
@@ -59,7 +67,7 @@ public class ReviewsDTO {
                 ", date=" + date +
                 ", userId=" + userId +
                 ", description='" + description + '\'' +
-                ", isOpen=" + isOpen +
+                ", isNotOpen=" + isNotOpen +
                 '}';
     }
 }

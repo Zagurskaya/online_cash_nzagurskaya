@@ -14,7 +14,7 @@ public class ReviewsConverterImpl implements ReviewsConverter {
         reviewsDTO.setDate(reviews.getDate());
         reviewsDTO.setUserId(reviews.getUserId());
         reviewsDTO.setDescription(reviews.getDescription());
-        reviewsDTO.setIsOpen(reviews.getIsOpen());
+        reviewsDTO.setIsNotOpen(reviews.getIsNotOpen());
         return reviewsDTO;
     }
 
@@ -25,7 +25,7 @@ public class ReviewsConverterImpl implements ReviewsConverter {
         reviews.setDate(reviewsDTO.getDate());
         reviews.setUserId(reviewsDTO.getUserId());
         reviews.setDescription(reviewsDTO.getDescription());
-        reviews.setIsOpen(reviewsDTO.getIsOpen());
+        reviews.setIsNotOpen(reviewsDTO.getIsNotOpen());
         return reviews;
     }
 }

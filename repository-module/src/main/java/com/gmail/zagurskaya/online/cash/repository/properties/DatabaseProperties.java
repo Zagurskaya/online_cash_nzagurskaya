@@ -36,4 +36,5 @@ public class DatabaseProperties {
     public String getDatabaseInitialFile() {
         return databaseInitialFile;
     }
+
 }

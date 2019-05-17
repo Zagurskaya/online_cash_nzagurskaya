@@ -8,7 +8,7 @@ public class Reviews {
     private Date date;
     private Long userId;
     private String description;
-    private boolean isOpen;
+    private boolean isNotOpen;
 
     public Reviews() {
     }
@@ -46,12 +46,12 @@ public class Reviews {
         this.description = description;
     }
 
-    public boolean getIsOpen() {
-        return isOpen;
+    public boolean getIsNotOpen() {
+        return isNotOpen;
     }
 
-    public void setIsOpen(boolean isOpen) {
-        isOpen = isOpen;
+    public void setIsNotOpen(boolean notOpen) {
+        isNotOpen = notOpen;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Reviews {
                 ", date=" + date +
                 ", userId=" + userId +
                 ", description='" + description + '\'' +
-                ", isOpen=" + isOpen +
+                ", isNotOpen=" + isNotOpen +
                 '}';
     }
 }

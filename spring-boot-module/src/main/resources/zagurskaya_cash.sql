@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `zagurskaya_cash`.`reviews` (
   `date` DATE NULL,
   `userId` INT NOT NULL,
   `description` VARCHAR(200) NULL,
-  `isOpen` TINYINT(1) NULL,
+  `isNotOpen` TINYINT(1) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_reportEndDay_users1_idx` (`userId` ASC),
   CONSTRAINT `fk_reportEndDay_users1`
@@ -504,10 +504,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `zagurskaya_cash`;
-INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-01', 2, 'new rateKB $ 2.51, everything is bad', 1);
-INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-01', 3, 'new rateKB $ 2.52, everything is bad', 1);
-INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-02', 2, 'new rateKB $ 2.53, everything is bad', 1);
-INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isOpen`) VALUES (DEFAULT, '2018-05-02', 3, 'new rateKB $ 2.54, everything is bad', 0);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isNotOpen`) VALUES (DEFAULT, '2018-05-01', 2, 'new rateKB $ 2.51, everything is bad', 0);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isNotOpen`) VALUES (DEFAULT, '2018-05-01', 3, 'new rateKB $ 2.52, everything is bad', 0);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isNotOpen`) VALUES (DEFAULT, '2018-05-02', 2, 'new rateKB $ 2.53, everything is bad', 0);
+INSERT INTO `zagurskaya_cash`.`reviews` (`id`, `date`, `userId`, `description`, `isNotOpen`) VALUES (DEFAULT, '2018-05-02', 3, 'new rateKB $ 2.54, everything is bad', 1);
 
 COMMIT;
 

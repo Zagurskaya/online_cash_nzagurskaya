@@ -1,16 +1,13 @@
 package com.gmail.zagurskaya.online.cash.repository.impl;
 
 import com.gmail.zagurskaya.online.cash.repository.RoleRepository;
-import com.gmail.zagurskaya.online.cash.repository.exception.RoleRepositoryImplException;
+import com.gmail.zagurskaya.online.cash.repository.exception.RoleRepositoryException;
 import com.gmail.zagurskaya.online.cash.repository.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,57 +16,42 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     private static Logger logger = LoggerFactory.getLogger(RoleRepositoryImpl.class);
 
-    private final AbstractRepository abstractRepository;
-
-    public RoleRepositoryImpl(AbstractRepository abstractRepository) {
-        this.abstractRepository = abstractRepository;
-    }
-
     @Override
     public List<Role> getRoles(Connection connection) {
-        return getAll(connection);
+        String sql = String.format(
+                "SELECT * FROM `roles`");
+        List<Role> roleList = new ArrayList<>();
+        try (PreparedStatement prepared = connection.prepareStatement(sql)) {
+            ResultSet resultSet = prepared.executeQuery(sql);
+            return getRolesFromResult(resultSet);
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new RoleRepositoryException("Database exception during  getRoles ", e);
+        }
     }
 
     @Override
     public Role getRole(Connection connection, Long id) {
-        List<Role> roles = getAll(connection, " WHERE id=" + id);
-        return roles.size() == 0 ? null : roles.get(0);
-    }
-
-    public Role create(Connection connection, Role role) {
-        String sql = String.format(
-                "INSERT INTO `roles`(`id`, `name`) VALUES ('%d','%s')",
-                role.getId(), role.getName());
-        long roleId = abstractRepository.executeCreate(connection, sql);
-        if (roleId > 0) {
-            role.setId(roleId);
-            return role;
-        } else {
-            return null;
-        }
-    }
-
-    public List<Role> getAll(Connection connection) {
-        return getAll(connection, "");
-    }
-
-    public List<Role> getAll(Connection connection, String where) {
-        List<Role> result = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "SELECT * FROM `roles` " + where);
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                Role role = new Role();
-                role.setId(resultSet.getLong("id"));
-                role.setName(resultSet.getString("name"));
-                result.add(role);
-            }
-            return result;
+        String sql = "SELECT * FROM `roles`  WHERE `id` = ? ";
+        List<Role> roleList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return getRolesFromResult(resultSet).get(0);
         } catch (SQLException e) {
-            throw new RoleRepositoryImplException("Database exception during getALL Role where" + where, e);
+            logger.error(e.getMessage(), e);
+            throw new RoleRepositoryException("Database exception during  get Role By ID ", e);
         }
-
     }
 
+    private List<Role> getRolesFromResult(ResultSet resultSet) throws SQLException {
+        List<Role> roleList = new ArrayList<>();
+        while (resultSet.next()) {
+            Role role = new Role();
+            role.setId(resultSet.getLong("id"));
+            role.setName(resultSet.getString("name"));
+            roleList.add(role);
+        }
+        return roleList;
+    }
 }

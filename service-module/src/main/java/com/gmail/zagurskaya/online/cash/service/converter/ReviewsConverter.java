@@ -8,5 +8,4 @@ public interface ReviewsConverter {
     ReviewsDTO toDTO(Reviews reviews);
 
     Reviews toEntity(ReviewsDTO reviewsDTO);
-
 }

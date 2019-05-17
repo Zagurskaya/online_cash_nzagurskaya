@@ -10,6 +10,7 @@ public class EncryptionConfigurer {
 
     @Bean
     public PasswordEncoder encoder(){
+
         return new BCryptPasswordEncoder(12);
     }
 }

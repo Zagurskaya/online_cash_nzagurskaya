@@ -1,7 +1,4 @@
 package com.gmail.zagurskaya.online.cash.service.security;
-import com.gmail.zagurskaya.online.cash.repository.DaoRepository;
-import com.gmail.zagurskaya.online.cash.service.RoleService;
-import com.gmail.zagurskaya.online.cash.service.impl.RoleServiceImpl;
 import com.gmail.zagurskaya.online.cash.service.model.RoleDTO;
 import com.gmail.zagurskaya.online.cash.service.model.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,4 +54,5 @@ public class AppUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

@@ -20,7 +20,6 @@ public class HomeController {
     }
     @GetMapping("/login?logout")
     public String getLogOutPage() {
-//??????? выход
         return "/";
     }
 

@@ -33,4 +33,5 @@ public class LoginAccessDeniedHandler implements AccessDeniedHandler {
         }
         response.sendRedirect(request.getContextPath() + "/403");
     }
+
 }
