@@ -42,15 +42,21 @@ public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private String determineTargetUrl(Authentication authentication) {
+        boolean isKassir = false;
         boolean isAdministrator = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("Administrator")) {
+            if (authority.getAuthority().equals("Kassir")) {
+                isKassir = true;
+                break;
+            } else if (authority.getAuthority().equals("Administrator")) {
                 isAdministrator = true;
                 break;
             }
         }
-        if (isAdministrator) {
+        if (isKassir) {
+            return "/cash";
+        } else if (isAdministrator) {
             return "/admin";
         } else {
             throw new IllegalStateException();
@@ -65,5 +71,4 @@ public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccess
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
-
 }

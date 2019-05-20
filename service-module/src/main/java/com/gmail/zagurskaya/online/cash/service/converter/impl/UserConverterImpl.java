@@ -1,5 +1,6 @@
 package com.gmail.zagurskaya.online.cash.service.converter.impl;
 
+import com.gmail.zagurskaya.online.cash.repository.model.Role;
 import com.gmail.zagurskaya.online.cash.repository.model.User;
 import com.gmail.zagurskaya.online.cash.service.converter.UserConverter;
 import com.gmail.zagurskaya.online.cash.service.model.UserDTO;
@@ -17,8 +18,8 @@ public class UserConverterImpl implements UserConverter {
         userDTO.setLastName(user.getLastName());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setPatronymic(user.getPatronymic());
-        userDTO.setRoleId(user.getRoleId());
-        userDTO.setIsNotActive(user.getIsNotActive());
+        userDTO.setRoleId(user.getRole().getId());
+        userDTO.setIsNotActive(user.getNotActive());
         return userDTO;
     }
 
@@ -31,8 +32,10 @@ public class UserConverterImpl implements UserConverter {
         user.setLastName(userDTO.getLastName());
         user.setFirstName(userDTO.getFirstName());
         user.setPatronymic(userDTO.getPatronymic());
-        user.setRoleId(userDTO.getRoleId());
-        user.setIsNotActive(userDTO.getIsNotActive());
+        Role role = new Role();
+        role.setId(userDTO.getRoleId());
+        user.setRole(role);
+        user.setNotActive(userDTO.getIsNotActive());
         return user;
     }
 }

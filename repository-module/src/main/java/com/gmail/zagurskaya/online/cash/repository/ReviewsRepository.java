@@ -6,15 +6,15 @@ import java.sql.Connection;
 import java.util.List;
 
 
-public interface ReviewsRepository {
+public interface ReviewsRepository extends GenericRepository {
 
     List<Reviews> getReviews(Connection connection);
 
-    Reviews getReview(Connection connection, Long id);
-
-    boolean update(Connection connection, Reviews reviews);
-
-    boolean delete(Connection connection, Long id);
+//    Reviews getReview(Connection connection, Long id);
+//
+//    boolean update(Connection connection, Reviews reviews);
+//
+//    boolean delete(Connection connection, Long id);
 
 
 }

@@ -10,8 +10,7 @@ public interface ReviewsService {
 
     ReviewsDTO getReview(Long id);
 
-    boolean update(ReviewsDTO reviews);
+    void update(ReviewsDTO reviews);
 
-    boolean delete(Long id);
 
 }

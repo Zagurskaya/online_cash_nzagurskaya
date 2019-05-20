@@ -9,11 +9,9 @@ public interface UserService {
 
     List<UserDTO> getUsers();
 
-    UserDTO add(UserDTO user);
+    void add(UserDTO user);
 
-    boolean delete(Long id);
-
-    boolean update(UserDTO user);
+    void update(UserDTO user);
 
     UserDTO loadUserByUsername(String name);
 

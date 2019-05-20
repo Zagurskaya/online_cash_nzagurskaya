@@ -1,7 +1,6 @@
 package com.gmail.zagurskaya.online.cash.service.impl;
 
 import com.gmail.zagurskaya.online.cash.repository.UserRepository;
-import com.gmail.zagurskaya.online.cash.repository.connection.ConnectionHandler;
 import com.gmail.zagurskaya.online.cash.repository.model.User;
 import com.gmail.zagurskaya.online.cash.service.UserService;
 import com.gmail.zagurskaya.online.cash.service.converter.UserConverter;
@@ -11,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sun.reflect.generics.repository.AbstractRepository;
 
 import java.sql.Connection;
@@ -19,25 +19,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LogManager.getLogger(AbstractRepository.class);
     private final UserConverter userConverter;
     private final UserRepository userRepository;
-    private final ConnectionHandler connectionHandler;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, ConnectionHandler connectionHandler, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
-        this.connectionHandler = connectionHandler;
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Override
     public List<UserDTO> getUsers() {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = userRepository.getConnection()) {
             return getUsersWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService {
     private List<UserDTO> getUsersWitchConnection(Connection connection) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            List<User> users = userRepository.getUsers(connection);
+            List<User> users = userRepository.findAll(0, Integer.MAX_VALUE);
             List<UserDTO> dtos = users.stream()
                     .map(userConverter::toDTO)
                     .collect(Collectors.toList());
@@ -62,26 +60,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO add(UserDTO userDTO) {
-        try (Connection connection = connectionHandler.getConnection()) {
-            return addWitchConnection(connection, userDTO);
+    public void add(UserDTO userDTO) {
+        try (Connection connection = userRepository.getConnection()) {
+//            return
+                    addWitchConnection(connection, userDTO);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             throw new UserServiceException("Exception in add users", e);
         }
     }
 
-
-    private UserDTO addWitchConnection(Connection connection, UserDTO userDTO) throws SQLException {
+//    private UserDTO addWitchConnection(Connection connection, UserDTO userDTO) throws SQLException {
+    private void addWitchConnection(Connection connection, UserDTO userDTO) throws SQLException {
         connection.setAutoCommit(false);
         try {
             User user = userConverter.toEntity(userDTO);
             String password = randomPasswordWithEncoder(6);
             user.setPassword(password);
-            User added = userRepository.add(connection, user);
-            UserDTO addedUser = userConverter.toDTO(added);
+//            User added = userRepository.add(connection, user);
+//            User added =
+                    userRepository.persist(user);
+//            UserDTO addedUser = userConverter.toDTO(added);
             connection.commit();
-            return addedUser;
+//            return addedUser;
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
@@ -91,31 +92,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean delete(Long id) {
-        try (Connection connection = connectionHandler.getConnection()) {
-            return deleteWitchConnection(connection, id);
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new UserServiceException("Exception in add users", e);
-        }
-    }
-
-    private boolean deleteWitchConnection(Connection connection, Long id) throws SQLException {
-        connection.setAutoCommit(false);
-        try {
-            boolean deleted = userRepository.delete(connection, id);
-            connection.commit();
-            return deleted;
-        } catch (SQLException e) {
-            connection.rollback();
-            logger.error(e.getMessage(), e);
-            throw new UserServiceException("Exception in add users witch Connection", e);
-        }
-    }
-    @Override
-    public boolean update(UserDTO userDTO) {
-        try (Connection connection = connectionHandler.getConnection()) {
-            return updateWitchConnection(connection, userDTO);
+    public void update(UserDTO userDTO) {
+        try (Connection connection = userRepository.getConnection()) {
+//            return
+                    updateWitchConnection(connection, userDTO);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             throw new UserServiceException("Exception in add users", e);
@@ -123,13 +103,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private boolean updateWitchConnection(Connection connection, UserDTO userDTO) throws SQLException {
+    private void updateWitchConnection(Connection connection, UserDTO userDTO) throws SQLException {
         connection.setAutoCommit(false);
         try {
             User user = userConverter.toEntity(userDTO);
-            boolean update = userRepository.update(connection, user);
+//            boolean update =
+                    userRepository.merge(user);
             connection.commit();
-            return update;
+//            return update;
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
@@ -139,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO loadUserByUsername(String name) {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = userRepository.getConnection()) {
             return loadUserByUsernameWitchConnection(connection, name);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -164,7 +145,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getActionUsersSortedByUserName() {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = userRepository.getConnection()) {
             return getActionUsersSortedByUserNameWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -190,7 +171,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long id) {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = userRepository.getConnection()) {
             return getUserByIdWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -201,7 +182,7 @@ public class UserServiceImpl implements UserService {
     private UserDTO getUserByIdWitchConnection(Connection connection, Long id) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            User loaded = userRepository.getUserById(connection, id);
+            User loaded = (User) userRepository.findById(id);
             UserDTO userDTO = userConverter.toDTO(loaded);
             connection.commit();
             return userDTO;

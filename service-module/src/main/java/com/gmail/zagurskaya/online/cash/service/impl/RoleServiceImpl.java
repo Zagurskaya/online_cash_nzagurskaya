@@ -1,7 +1,6 @@
 package com.gmail.zagurskaya.online.cash.service.impl;
 
 import com.gmail.zagurskaya.online.cash.repository.RoleRepository;
-import com.gmail.zagurskaya.online.cash.repository.connection.ConnectionHandler;
 import com.gmail.zagurskaya.online.cash.repository.model.Role;
 import com.gmail.zagurskaya.online.cash.service.RoleService;
 import com.gmail.zagurskaya.online.cash.service.converter.RoleConverter;
@@ -25,18 +24,16 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleConverter roleConverter;
     private final RoleRepository roleRepository;
-    private final ConnectionHandler connectionHandler;
 
 
-    public RoleServiceImpl(RoleConverter roleConverter, RoleRepository roleRepository, ConnectionHandler connectionHandler) {
+    public RoleServiceImpl(RoleConverter roleConverter, RoleRepository roleRepository) {
         this.roleConverter = roleConverter;
         this.roleRepository = roleRepository;
-        this.connectionHandler = connectionHandler;
     }
 
     @Override
     public List<RoleDTO> getRoles() {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = roleRepository.getConnection()) {
             return getRolesWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -47,7 +44,7 @@ public class RoleServiceImpl implements RoleService {
     private List<RoleDTO> getRolesWitchConnection(Connection connection) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            List<Role> roles = roleRepository.getRoles(connection);
+            List<Role> roles = roleRepository.findAll(0, Integer.MAX_VALUE);
             List<RoleDTO> rolesDTO = roles.stream()
                     .map(roleConverter::toDTO)
                     .collect(Collectors.toList());
@@ -62,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO getRole(Long id) {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = roleRepository.getConnection()) {
             return getRoleWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -73,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleDTO getRoleWitchConnection(Connection connection, long id) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            Role role = roleRepository.getRole(connection, id);
+            Role role = (Role) roleRepository.findById( id);
             RoleDTO roleDTO = roleConverter.toDTO(role);
             connection.commit();
             return roleDTO;

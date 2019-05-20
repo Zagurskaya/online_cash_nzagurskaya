@@ -1,7 +1,6 @@
 package com.gmail.zagurskaya.online.cash.service.impl;
 
 import com.gmail.zagurskaya.online.cash.repository.ReviewsRepository;
-import com.gmail.zagurskaya.online.cash.repository.connection.ConnectionHandler;
 import com.gmail.zagurskaya.online.cash.repository.model.Reviews;
 import com.gmail.zagurskaya.online.cash.service.ReviewsService;
 import com.gmail.zagurskaya.online.cash.service.converter.ReviewsConverter;
@@ -23,17 +22,15 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     private final ReviewsConverter reviewsConverter;
     private final ReviewsRepository reviewsRepository;
-    private final ConnectionHandler connectionHandler;
 
-    public ReviewsServiceImpl(ReviewsConverter reviewsConverter, ReviewsRepository reviewsRepository, ConnectionHandler connectionHandler) {
+    public ReviewsServiceImpl(ReviewsConverter reviewsConverter, ReviewsRepository reviewsRepository) {
         this.reviewsConverter = reviewsConverter;
         this.reviewsRepository = reviewsRepository;
-        this.connectionHandler = connectionHandler;
     }
 
     @Override
     public List<ReviewsDTO> getReviews() {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = reviewsRepository.getConnection()) {
             return getReportsEndDayWitchConnection(connection);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -58,32 +55,9 @@ public class ReviewsServiceImpl implements ReviewsService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        try (Connection connection = connectionHandler.getConnection()) {
-            return deleteWitchConnection(connection, id);
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new ReviewsServiceException("Exception in delete reviews", e);
-        }
-    }
-
-    private boolean deleteWitchConnection(Connection connection, Long id) throws SQLException {
-        connection.setAutoCommit(false);
-        try {
-            boolean deleted = reviewsRepository.delete(connection, id);
-            connection.commit();
-            return deleted;
-        } catch (SQLException e) {
-            connection.rollback();
-            logger.error(e.getMessage(), e);
-            throw new ReviewsServiceException("Exception in delete reviews witch Connection", e);
-        }
-    }
-
-    @Override
-    public boolean update(ReviewsDTO reviewsDTO) {
-        try (Connection connection = connectionHandler.getConnection()) {
-            return updateWitchConnection(connection, reviewsDTO);
+    public void update(ReviewsDTO reviewsDTO) {
+        try (Connection connection = reviewsRepository.getConnection()) {
+                    updateWitchConnection(connection, reviewsDTO);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             throw new ReviewsServiceException("Exception in add reviewss", e);
@@ -91,13 +65,12 @@ public class ReviewsServiceImpl implements ReviewsService {
     }
 
 
-    private boolean updateWitchConnection(Connection connection, ReviewsDTO reviewsDTO) throws SQLException {
+    private void updateWitchConnection(Connection connection, ReviewsDTO reviewsDTO) throws SQLException {
         connection.setAutoCommit(false);
         try {
             Reviews reviews = reviewsConverter.toEntity(reviewsDTO);
-            boolean update = reviewsRepository.update(connection, reviews);
+                    reviewsRepository.merge(reviews);
             connection.commit();
-            return update;
         } catch (SQLException e) {
             connection.rollback();
             logger.error(e.getMessage(), e);
@@ -107,7 +80,7 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     @Override
     public ReviewsDTO getReview(Long id) {
-        try (Connection connection = connectionHandler.getConnection()) {
+        try (Connection connection = reviewsRepository.getConnection()) {
             return getReviewsWitchConnection(connection, id);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
@@ -118,7 +91,7 @@ public class ReviewsServiceImpl implements ReviewsService {
     private ReviewsDTO getReviewsWitchConnection(Connection connection, Long id) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            Reviews reviews = reviewsRepository.getReview(connection, id);
+            Reviews reviews = (Reviews) reviewsRepository.findById(id);
             ReviewsDTO reviewsDTO = reviewsConverter.toDTO(reviews);
             connection.commit();
             return reviewsDTO;

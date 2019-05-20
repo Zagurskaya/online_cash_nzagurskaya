@@ -1,19 +1,51 @@
 package com.gmail.zagurskaya.online.cash.repository.model;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET isNotActive = 1 WHERE id=?")
+@Where(clause = "isNotActive = 0")
 public class User {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private String username;
-    private String password;
-    private String lastName;
-    private String firstName;
-    private String patronymic;
-    private Long roleId;
-    private Boolean isNotActive;
 
-    public User() {
-    }
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "patronymic")
+    private String patronymic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roleId")
+    private Role role;
+
+    @Column(name = "isNotActive")
+    private Boolean isNotActive;
 
     public Long getId() {
         return id;
@@ -63,19 +95,19 @@ public class User {
         this.patronymic = patronymic;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public Boolean getIsNotActive() {
+    public Boolean getNotActive() {
         return isNotActive;
     }
 
-    public void setIsNotActive(Boolean notActive) {
+    public void setNotActive(Boolean notActive) {
         isNotActive = notActive;
     }
 
@@ -88,7 +120,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
-                ", roleId=" + roleId +
+                ", roleId=" + role.getId() +
                 ", isNotActive=" + isNotActive +
                 '}';
     }

@@ -6,10 +6,10 @@ import java.sql.Connection;
 import java.util.List;
 
 
-public interface RoleRepository {
+public interface RoleRepository extends GenericRepository {
 
-    List<Role> getRoles(Connection connection);
+//    List<Role> getRoles(Connection casonnection);
 
-    Role getRole(Connection connection, Long id);
+//    Role getRole(Connection connection, Long id);
 
     }

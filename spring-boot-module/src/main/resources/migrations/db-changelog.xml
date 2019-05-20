@@ -1,0 +1,582 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="zagurskaya@gmail.com" id="ROLE_TABLE_1">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_TABLE_1">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastName" type="VARCHAR(40)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="firstName" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patronymic" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roleId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isNotActive" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_TABLE_2">
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="roleId"
+                                 constraintName="roleId"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="REVIEW_TABLE_1">
+        <createTable tableName="reviews">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="isNotOpen" type="BOOLEAN" defaultValueBoolean="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="REVIEW_TABLE_2">
+        <addForeignKeyConstraint baseTableName="reviews"
+                                 baseColumnNames="userId"
+                                 constraintName="userId"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+    <changeSet author="zagurskaya@gmail.com" id="CURRENCY_TABLE_1">
+        <createTable tableName="currencies">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="iso" type="VARCHAR(50)"/>
+            <column name="name" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_TABLE_1">
+        <createTable tableName="rateNB">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="currencyId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sum" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isNotActive" type="BOOLEAN" defaultValueBoolean="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_TABLE_2">
+        <addForeignKeyConstraint baseTableName="rateNB"
+                                 baseColumnNames="currencyId"
+                                 constraintName="currencyId"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedTableName="currencies"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATECB_TABLE_1">
+        <createTable tableName="rateNB">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="coming" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="spending" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sum" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isBack" type="BOOLEAN" defaultValueBoolean="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isNotActive" type="BOOLEAN" defaultValueBoolean="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATECB_TABLE_2">
+        <addForeignKeyConstraint baseTableName="rateCB"
+                                 baseColumnNames="coming"
+                                 constraintName="coming"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedTableName="currencies"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATECB_TABLE_2">
+        <addForeignKeyConstraint baseTableName="rateCB"
+                                 baseColumnNames="spending"
+                                 constraintName="spending"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedTableName="currencies"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="SPROPERATION_TABLE_1">
+        <createTable tableName="sprOperations">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specification" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USEROPERATION_TABLE_1">
+        <createTable tableName="sprOperations">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sum" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currencyId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operationId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specification" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fio" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet author="zagurskaya@gmail.com" id="ROLE_INSERT_1">
+        <insert tableName="roles">
+            <column name="name" value="Administrator"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="ROLE_INSERT_2">
+        <insert tableName="roles">
+            <column name="name" value="Kassir"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="ROLE_INSERT_3">
+        <insert tableName="roles">
+            <column name="name" value="Controller"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="" id="ROLE_INSERT_4">
+        <insert tableName="roles">
+            <column name="name" value="SecureRestApi"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_1">
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$12$zOaadmWpahyYjytjhOzZ3eKAcl3MJAc8CPR/9D76vw.d/vIuCk8u2"/>
+            <column name="lastName" value="Adminov"/>
+            <column name="firstName" value="Admin"/>
+            <column name="patronymic" value="Adminovish"/>
+            <column name="roleId" value="1"/>
+            <column name="isNotActive" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_2">
+        <insert tableName="users">
+            <column name="username" value="ivanova"/>
+            <column name="password" value="$2a$10$7FdrlLO1NjHw4zyv2pEE7.oMRm575A0nIncaYMDrfYDaF0edfemhS"/>
+            <column name="lastName" value="Ivanova"/>
+            <column name="firstName" value="Mariya"/>
+            <column name="patronymic" value="Ivanovna"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_3">
+        <insert tableName="users">
+            <column name="username" value="petrova"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Petrova"/>
+            <column name="firstName" value="Svetlana"/>
+            <column name="patronymic" value="Petrova"/>
+            <column name="roleId" value="3"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_4">
+        <insert tableName="users">
+            <column name="username" value="secure"/>
+            <column name="password" value="111111"/>
+            <column name="lastName" value="Sidorov"/>
+            <column name="firstName" value="Sidor"/>
+            <column name="patronymic" value="Sidorovish"/>
+            <column name="roleId" value="4"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_5">
+        <insert tableName="users">
+            <column name="username" value="ates1"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Testov1"/>
+            <column name="firstName" value="Test1"/>
+            <column name="patronymic" value="Testovish1"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_6">
+        <insert tableName="users">
+            <column name="username" value="tes2"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Testov2"/>
+            <column name="firstName" value="Test2"/>
+            <column name="patronymic" value="Testovish2"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_7">
+        <insert tableName="users">
+            <column name="username" value="tes3"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Testov3"/>
+            <column name="firstName" value="Test3"/>
+            <column name="patronymic" value="Testovish3"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" valueBoolean="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_8">
+        <insert tableName="users">
+            <column name="username" value="tes4"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Testov4"/>
+            <column name="firstName" value="Test4"/>
+            <column name="patronymic" value="Testovish4"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" valueBoolean="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_9">
+        <insert tableName="users">
+            <column name="username" value="tes5"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Testov5"/>
+            <column name="firstName" value="Test5"/>
+            <column name="patronymic" value="Testovish6"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="USER_INSERT_10">
+        <insert tableName="users">
+            <column name="username" value="tes6"/>
+            <column name="password" value="$2a$10$RVEcoflreqIm5icdhG0RvObN/10fYljJLnWZ2KEo.TsfAHDamD.Hi"/>
+            <column name="lastName" value="Testov6"/>
+            <column name="firstName" value="Tes6"/>
+            <column name="patronymic" value="Testovish6"/>
+            <column name="roleId" value="2"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="REVIEWS_INSERT_1">
+        <insert tableName="reviews">
+            <column name="date" value="2018-05-01"/>
+            <column name="userId" value="2"/>
+            <column name="description" value="new rateKB $ 2.51"/>
+            <column name="isNotOpen" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="REVIEWS_INSERT_2">
+        <insert tableName="reviews">
+            <column name="date" value="2018-05-01"/>
+            <column name="userId" value="3"/>
+            <column name="description" value="new rateKB $ 2.52"/>
+            <column name="isNotOpen" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="REVIEWS_INSERT_3">
+        <insert tableName="reviews">
+            <column name="date" value="2018-05-01"/>
+            <column name="userId" value="2"/>
+            <column name="description" value="new rateKB $ 2.53"/>
+            <column name="isNotOpen" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="REVIEWS_INSERT_4">
+        <insert tableName="reviews">
+            <column name="date" value="2018-05-01"/>
+            <column name="userId" value="3"/>
+            <column name="description" value="new rateKB $ 2.54"/>
+            <column name="isNotOpen" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="CURRENCIES_INSERT_1">
+        <insert tableName="currencies">
+            <column name="id" value="643"/>
+            <column name="iso" value="RUR"/>
+            <column name="name" value="Российский рубль"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="CURRENCIES_INSERT_2">
+        <insert tableName="currencies">
+            <column name="id" value="840"/>
+            <column name="iso" value="USD"/>
+            <column name="name" value="Долоры США"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="CURRENCIES_INSERT_3">
+        <insert tableName="currencies">
+            <column name="id" value="933"/>
+            <column name="iso" value="BUR"/>
+            <column name="name" value="Белорусский рубль"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="CURRENCIES_INSERT_4">
+        <insert tableName="currencies">
+            <column name="id" value="978"/>
+            <column name="iso" value="EUR"/>
+            <column name="name" value="Российский рубль"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_INSERT_1">
+        <insert tableName="rateNB">
+            <column name="currencyId" value="840"/>
+            <column name="date" value="2018-02-01"/>
+            <column name="sum" value="2.16"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_INSERT_2">
+        <insert tableName="rateNB">
+            <column name="currencyId" value="978"/>
+            <column name="date" value="2018-02-01"/>
+            <column name="sum" value="2.44"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_INSERT_3">
+        <insert tableName="rateNB">
+            <column name="currencyId" value="643"/>
+            <column name="date" value="2018-02-01"/>
+            <column name="sum" value="0.0324"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_INSERT_4">
+        <insert tableName="rateNB">
+            <column name="currencyId" value="933"/>
+            <column name="date" value="2018-02-01"/>
+            <column name="sum" value="1"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATENB_INSERT_4">
+        <insert tableName="rateNB">
+            <column name="currencyId" value="840"/>
+            <column name="date" value="2018-02-01"/>
+            <column name="sum" value="2.161"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATEСB_INSERT_1">
+        <insert tableName="rateNB">
+            <column name="coming" value="840"/>
+            <column name="spending" value="933"/>
+            <column name="timestamp" value="2018-02-01 10:03:11"/>
+            <column name="sum" value="2.15"/>
+            <column name="isBack" value="0"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATEСB_INSERT_2">
+        <insert tableName="rateNB">
+            <column name="coming" value="933"/>
+            <column name="spending" value="840"/>
+            <column name="timestamp" value="2018-02-01 10:03:11"/>
+            <column name="sum" value="2.17"/>
+            <column name="isBack" value="1"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATEСB_INSERT_3">
+        <insert tableName="rateNB">
+            <column name="coming" value="978"/>
+            <column name="spending" value="933"/>
+            <column name="timestamp" value="2018-02-01 10:03:11"/>
+            <column name="sum" value="2.43"/>
+            <column name="isBack" value="0"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATEСB_INSERT_4">
+        <insert tableName="rateNB">
+            <column name="coming" value="933"/>
+            <column name="spending" value="978"/>
+            <column name="timestamp" value="2018-02-01 10:03:11"/>
+            <column name="sum" value="2.45"/>
+            <column name="isBack" value="1"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATEСB_INSERT_3">
+        <insert tableName="rateNB">
+            <column name="coming" value="643"/>
+            <column name="spending" value="933"/>
+            <column name="timestamp" value="2018-02-01 10:03:11"/>
+            <column name="sum" value="0.0321"/>
+            <column name="isBack" value="0"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="RATEСB_INSERT_4">
+        <insert tableName="rateNB">
+            <column name="coming" value="933"/>
+            <column name="spending" value="643"/>
+            <column name="timestamp" value="2018-02-01 10:03:11"/>
+            <column name="sum" value="0.0328"/>
+            <column name="isBack" value="1"/>
+            <column name="isNotActive" valueBoolean="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="SPROPERATION_INSERT_1">
+        <insert tableName="sprOperations">
+            <column name="id" value="10"/>
+            <column name="name" value="Покупка валюты"/>
+            <column name="specification" value=""/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="SPROPERATION_INSERT_2">
+        <insert tableName="sprOperations">
+            <column name="id" value="20"/>
+            <column name="name" value="Продажа валюты"/>
+            <column name="specification" value=""/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="zagurskaya@gmail.com" id="SPROPERATION_INSERT_2">
+        <insert tableName="sprOperations">
+            <column name="id" value="998"/>
+            <column name="name" value="Коммунальный платеж"/>
+            <column name="specification" value=""/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

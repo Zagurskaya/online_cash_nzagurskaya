@@ -2,7 +2,6 @@ package com.gmail.zagurskaya.online.cash.repository.impl;
 
 import com.gmail.zagurskaya.online.cash.repository.ReviewsRepository;
 import com.gmail.zagurskaya.online.cash.repository.exception.ReviewsRepositoryException;
-import com.gmail.zagurskaya.online.cash.repository.exception.RoleRepositoryException;
 import com.gmail.zagurskaya.online.cash.repository.model.Reviews;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ReviewsRepositoryImpl implements ReviewsRepository {
+public class ReviewsRepositoryImpl extends GenericRepositoryImpl implements ReviewsRepository {
 
     private static Logger logger = LoggerFactory.getLogger(ReviewsRepositoryImpl.class);
 
@@ -53,50 +52,50 @@ public class ReviewsRepositoryImpl implements ReviewsRepository {
         }
     }
 
-    @Override
-    public Reviews getReview(Connection connection, Long id) {
-        String sql = "SELECT * FROM reviews  WHERE id = ? ";
-        List<Reviews> reviewList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return getReviewsFromResult(resultSet).get(0);
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new ReviewsRepositoryException("Database exception during  getReview ", e);
-        }
-    }
+//    @Override
+//    public Reviews getReview(Connection connection, Long id) {
+//        String sql = "SELECT * FROM reviews  WHERE id = ? ";
+//        List<Reviews> reviewList = new ArrayList<>();
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+//            preparedStatement.setLong(1, id);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            return getReviewsFromResult(resultSet).get(0);
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage(), e);
+//            throw new ReviewsRepositoryException("Database exception during  getReview ", e);
+//        }
+//    }
 
-    @Override
-    public boolean update(Connection connection, Reviews reviews) {
-        String sql = "UPDATE reviews SET date = ?, reviewId = ?, description = ?, isOpen = ? WHERE  id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setDate(1, reviews.getDate());
-            preparedStatement.setLong(2, reviews.getId());
-            preparedStatement.setString(3, reviews.getDescription());
-            preparedStatement.setLong(4, reviews.getIsNotOpen() ? 1 : 0);
-            int result = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return 1 == result;
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new ReviewsRepositoryException("Database exception during  update reviews ", e);
-        }
-    }
-
-    @Override
-    public boolean delete(Connection connection, Long id) {
-        String sql = "UPDATE reviews SET isNotOpen = 1 WHERE id=?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            int result = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            return 1 == result;
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new ReviewsRepositoryException("Database exception during  update reviews ", e);
-        }
-    }
+//    @Override
+//    public boolean update(Connection connection, Reviews reviews) {
+//        String sql = "UPDATE reviews SET date = ?, reviewId = ?, description = ?, isOpen = ? WHERE  id = ?";
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+//            preparedStatement.setDate(1, reviews.getDate());
+//            preparedStatement.setLong(2, reviews.getId());
+//            preparedStatement.setString(3, reviews.getDescription());
+//            preparedStatement.setLong(4, reviews.getIsNotOpen() ? 1 : 0);
+//            int result = preparedStatement.executeUpdate();
+//            preparedStatement.close();
+//            return 1 == result;
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage(), e);
+//            throw new ReviewsRepositoryException("Database exception during  update reviews ", e);
+//        }
+//    }
+//
+//    @Override
+//    public boolean delete(Connection connection, Long id) {
+//        String sql = "UPDATE reviews SET isNotOpen = 1 WHERE id=?";
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+//            preparedStatement.setLong(1, id);
+//            int result = preparedStatement.executeUpdate();
+//            preparedStatement.close();
+//            return 1 == result;
+//        } catch (SQLException e) {
+//            logger.error(e.getMessage(), e);
+//            throw new ReviewsRepositoryException("Database exception during  update reviews ", e);
+//        }
+//    }
 
     private List<Reviews> getReviewsFromResult(ResultSet resultSet) throws SQLException {
         List<Reviews> reviewList = new ArrayList<>();

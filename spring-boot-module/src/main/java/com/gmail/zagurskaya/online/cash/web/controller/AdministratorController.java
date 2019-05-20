@@ -69,7 +69,10 @@ public class AdministratorController {
     ) throws NotFoundAllUsersException {
 
         for (int i = 0; i < ids.length; i++) {
-            userService.delete(ids[i]);
+            UserDTO user = new UserDTO();
+            user = userService.getUserById(ids[i]);
+            user.setIsNotActive(true);
+            userService.update(user);
             logger.info("deleted user with id = " + ids[i]);
         }
         List<UserDTO> users = userService.getActionUsersSortedByUserName();
@@ -86,7 +89,10 @@ public class AdministratorController {
     ) throws NotFoundAllUsersException {
 
         for (int i = 0; i < ids.length; i++) {
-            userService.delete(ids[i]);
+            UserDTO user = new UserDTO();
+            user = userService.getUserById(ids[i]);
+            user.setIsNotActive(true);
+            userService.update(user);
             logger.error("deleted user with id = " + ids[i]);
         }
         List<UserDTO> users = userService.getActionUsersSortedByUserName();
@@ -149,7 +155,10 @@ public class AdministratorController {
             Model model
     ) throws NotFoundAllUsersException {
         for (int i = 0; i < ids.length; i++) {
-            reviewsService.delete(ids[i]);
+            ReviewsDTO reviewsDTO = new ReviewsDTO();
+            reviewsDTO = reviewsService.getReview(ids[i]);
+            reviewsDTO.setIsNotOpen(true);
+            reviewsService.update(reviewsDTO);
             logger.error("delete delete witch id = " + ids[i]);
         }
         List<ReviewsDTO> reviews = reviewsService.getReviews();
