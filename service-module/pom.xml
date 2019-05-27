@@ -12,10 +12,12 @@
     <artifactId>service-module</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>service-module</name>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.gmail.zagurskaya.repository</groupId>

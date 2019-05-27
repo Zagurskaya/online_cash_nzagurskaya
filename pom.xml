@@ -13,39 +13,38 @@
         <module>repository-module</module>
     </modules>
 <dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
 
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+<!--    </dependency>-->
 
-    <dependency>
-        <groupId>org.thymeleaf.extras</groupId>
-        <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-    </dependency>
+    <!-- Spring Security -->
+<!--    <dependency>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-security</artifactId>-->
+<!--    </dependency>-->
 
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-devtools</artifactId>
-        <optional>true</optional>
-    </dependency>
+<!--    <dependency>-->
+<!--        <groupId>org.thymeleaf.extras</groupId>-->
+<!--        <artifactId>thymeleaf-extras-springsecurity4</artifactId>-->
+<!--    </dependency>-->
 
-    <!--<dependency>-->
-        <!--<groupId>org.webjars</groupId>-->
-        <!--<artifactId>bootstrap</artifactId>-->
-        <!--<version>3.3.7</version>-->
-    <!--</dependency>-->
+    <!-- hot swapping, disable cache for template, enable live reload -->
+<!--    <dependency>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-devtools</artifactId>-->
+<!--        <optional>true</optional>-->
+<!--    </dependency>-->
+
 </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            &lt;!&ndash; Package as an executable jar/war &ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 </project>

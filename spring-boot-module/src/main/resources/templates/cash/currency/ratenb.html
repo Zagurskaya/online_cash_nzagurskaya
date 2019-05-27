@@ -11,26 +11,14 @@
 <div th:replace="fragments/menucash :: header"/>
 
 <div class="container">
-    <table class="table table-bordered table-hover table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>валюта</th>
-            <th>дата</th>
-            <th>сумма</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="ratenb, stat : ${ratenb}">
-            <td th:text="${ratenb.id}"></td>
-            <td th:text="${ratenb.currencyId}"></td>
-            <td th:text="${ratenb.date}"></td>
-            <td th:text="${ratenb.sum}"></td>
-            <td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="starter-template">
+        <h1>Rate NB</h1>
+
+    </div>
+
 </div>
+<!-- /.container -->
 
 <div th:replace="fragments/footer :: footer"/>
 
