@@ -1,6 +1,5 @@
 package com.gmail.zagurskaya.service.model;
 
-import com.gmail.zagurskaya.repository.model.Reviews;
 import com.gmail.zagurskaya.repository.model.UserInfo;
 
 import javax.validation.constraints.NotNull;

@@ -1,6 +1,7 @@
 package com.gmail.zagurskaya.service.impl;
 
 import com.gmail.zagurskaya.repository.RoleRepository;
+import com.gmail.zagurskaya.repository.UserInfoRepository;
 import com.gmail.zagurskaya.repository.UserRepository;
 import com.gmail.zagurskaya.repository.model.Role;
 import com.gmail.zagurskaya.repository.model.User;
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
