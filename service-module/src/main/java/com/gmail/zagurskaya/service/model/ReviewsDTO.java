@@ -12,10 +12,10 @@ public class ReviewsDTO {
     @NotNull
     private UserDTO user ;
     @NotNull
+    private Long roleId;
+    @NotNull
     @Size(max = 200)
     private String description;
-    @NotNull
-    private boolean isNotOpen;
 
     public Long getId() {
         return id;
@@ -41,6 +41,7 @@ public class ReviewsDTO {
         this.user = user;
     }
 
+
     public String getDescription() {
         return description;
     }
@@ -49,13 +50,6 @@ public class ReviewsDTO {
         this.description = description;
     }
 
-    public boolean getIsNotOpen() {
-        return isNotOpen;
-    }
-
-    public void setIsNotOpen(boolean notOpen) {
-        isNotOpen = notOpen;
-    }
 
     @Override
     public String toString() {
@@ -64,7 +58,6 @@ public class ReviewsDTO {
                 ", date=" + date +
                 ", user=" + user +
                 ", description='" + description + '\'' +
-                ", isNotOpen=" + isNotOpen +
                 '}';
     }
 }

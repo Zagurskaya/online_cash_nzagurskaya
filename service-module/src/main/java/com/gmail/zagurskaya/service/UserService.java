@@ -2,7 +2,6 @@ package com.gmail.zagurskaya.service;
 
 import com.gmail.zagurskaya.service.model.UserDTO;
 
-import java.sql.Connection;
 import java.util.List;
 
 public interface UserService {
@@ -23,4 +22,7 @@ public interface UserService {
 
     String returnPasswordSameAsLogin(UserDTO userDTO);
 
+    UserDTO updateUserRole(Long userId, Long roleId);
+
+    void deleteUsersList(List<Long> ids);
 }

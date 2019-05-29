@@ -1,11 +1,10 @@
 package com.gmail.zagurskaya.service.model;
 
 import com.gmail.zagurskaya.repository.model.Reviews;
+import com.gmail.zagurskaya.repository.model.UserInfo;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 public class UserDTO {
 
@@ -18,23 +17,20 @@ public class UserDTO {
     @Size(max = 100)
     private String password;
     @NotNull
-    @Size(max = 40)
     private String lastName;
     @NotNull
-    @Size(max = 20)
     private String firstName;
     @NotNull
-    @Size(max = 40)
     private String patronymic;
+    private RoleDTO role;
     @NotNull
-    private RoleDTO role ;
+    private Long roleId;
+    @NotNull
+    private UserInfo userInfo;
     @NotNull
     private Boolean isNotActive;
 
-    private Set<Reviews> reviews = new HashSet<>();
 
-    public UserDTO() {
-    }
 
     public Long getId() {
         return id;
@@ -92,6 +88,14 @@ public class UserDTO {
         this.role = role;
     }
 
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
     public Boolean getIsNotActive() {
         return isNotActive;
     }
@@ -100,12 +104,12 @@ public class UserDTO {
         isNotActive = notActive;
     }
 
-    public Set<Reviews> getReviews() {
-        return reviews;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setReviews(Set<Reviews> reviews) {
-        this.reviews = reviews;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -114,12 +118,8 @@ public class UserDTO {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", patronymic='" + patronymic + '\'' +
                 ", role=" + role +
                 ", isNotActive=" + isNotActive +
-                ", reviews=" + reviews +
                 '}';
     }
 }

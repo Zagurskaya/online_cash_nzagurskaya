@@ -14,6 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.CONTROLLER;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.KASSIR;
+
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
@@ -48,11 +52,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/cash")
-                .hasAuthority("Kassir")
+                .hasAuthority(KASSIR)
                 .antMatchers("/controller")
-                .hasAuthority("Controller")
+                .hasAuthority(CONTROLLER)
                 .antMatchers("/admin")
-                .hasAuthority("Administrator")
+                .hasAuthority(ADMIN)
                 .antMatchers("/", "/403", "/about")
                 .permitAll()
                 .and()

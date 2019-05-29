@@ -5,20 +5,24 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class AppUserPrincipal implements UserDetails {
 
     private UserDTO user;
-    private Set<RoleDTO> roles;
+    private RoleDTO role;
     private Set<GrantedAuthority> grantedAuthorities;
 
-    public AppUserPrincipal(UserDTO userDto, Set<RoleDTO> roles) {
+    public AppUserPrincipal(UserDTO userDto, RoleDTO role) {
         this.user = userDto;
-        this.roles = roles;
-        this.grantedAuthorities = roles.stream().map(roleDTO -> new SimpleGrantedAuthority(roleDTO.getName())).collect(Collectors.toSet());
+        this.role = role;
+        this.grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -11,10 +11,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -30,7 +33,7 @@ public class AdministratorController {
         this.reviewsService = reviewsService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String getAdminPage() {
 
         return "administrator/admin";
@@ -45,7 +48,7 @@ public class AdministratorController {
         return "administrator/users";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/new_user")
     public String getAddUserInAdminPage() {
 
         return "administrator/new_user";
@@ -56,66 +59,26 @@ public class AdministratorController {
                                          Model model) throws NotFoundAllUsersException {
         userDTO.setIsNotActive(false);
         userService.add(userDTO);
-        List<UserDTO> users = userService.getActionUsersSortedByUserName();
-        List<RoleDTO> roles = roleService.getRoles();
-        model.addAttribute("users", users);
-        model.addAttribute("roles", roles);
-        return "administrator/users";
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/users/delete")
     public String postDeleteUsersInAdminPage(
-            @RequestParam("ids") Long[] ids,
+            @RequestParam("ids") List<Long> ids,
             Model model
     ) throws NotFoundAllUsersException {
-
-        for (int i = 0; i < ids.length; i++) {
-            userService.delete(ids[i]);
-            logger.info("deleted user with id = " + ids[i]);
-        }
-        List<UserDTO> users = userService.getActionUsersSortedByUserName();
-        List<RoleDTO> roles = roleService.getRoles();
-        model.addAttribute("users", users);
-        model.addAttribute("roles", roles);
-        return "administrator/users";
-    }
-
-    @PostMapping("/users/update/password/{id}")
-    public String postUpdateUserPasswordInAdminPage(
-            @RequestParam("ids") Long[] ids,
-            Model model
-    ) throws NotFoundAllUsersException {
-
-        for (int i = 0; i < ids.length; i++) {
-            userService.delete(ids[i]);
-            logger.error("deleted user with id = " + ids[i]);
-        }
-        List<UserDTO> users = userService.getActionUsersSortedByUserName();
-        List<RoleDTO> roles = roleService.getRoles();
-        model.addAttribute("users", users);
-        model.addAttribute("roles", roles);
-        return "administrator/users";
+        userService.deleteUsersList(ids);
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/users/update_role")
     public String postUpdateUserRoleInAdminPage(
             @RequestParam("id") Long userId,
             @RequestParam("roleId") Long roleId,
-            Model model
-    ) throws NotFoundAllUsersException {
+            Model model) {
 
-        UserDTO userDTO = userService.getUserById(userId);
-        RoleDTO newRoleDTO = roleService.getRole(roleId);
-        userDTO.setRole(userDTO.getRole().stream().map(role -> newRoleDTO).collect(Collectors.toSet()));
-        userService.update(userDTO);
-        logger.info("deleted user with id = " + userId);
-        logger.info("deleted user with roleId = " + roleId);
-
-        List<UserDTO> users = userService.getActionUsersSortedByUserName();
-        List<RoleDTO> roles = roleService.getRoles();
-        model.addAttribute("users", users);
-        model.addAttribute("roles", roles);
-        return "administrator/users";
+        UserDTO userDTO = userService.updateUserRole(userId, roleId);
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/users/update_password")
@@ -128,17 +91,12 @@ public class AdministratorController {
         userDTO.setPassword(userService.returnPasswordSameAsLogin(userDTO));
         userService.update(userDTO);
         logger.error("new password = " + userService.returnPasswordSameAsLogin(userDTO));
-
-        List<UserDTO> users = userService.getActionUsersSortedByUserName();
-        List<RoleDTO> roles = roleService.getRoles();
-        model.addAttribute("users", users);
-        model.addAttribute("roles", roles);
-        return "administrator/users";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/reviews")
     public String getReviewsInAdminPage(Model model) throws NotFoundAllUsersException {
-        List<ReviewsDTO> reviews =reviewsService.getReviews();
+        List<ReviewsDTO> reviews = reviewsService.getReviews();
         List<UserDTO> users = userService.getUsers();
         model.addAttribute("users", users);
         model.addAttribute("reviews", reviews);
@@ -146,20 +104,14 @@ public class AdministratorController {
     }
 
     @PostMapping("/reviews/delete")
-    public String postUpdateReviewsInAdminPage(
-            @RequestParam("ids") Long[] ids,
+    public String postDeleteReviewsInAdminPage(
+            @RequestParam("ids") List<Long> ids,
             Model model
     ) throws NotFoundAllUsersException {
-        for (int i = 0; i < ids.length; i++) {
-            reviewsService.delete(ids[i]);
-            logger.error("delete delete witch id = " + ids[i]);
-        }
-        List<ReviewsDTO> reviews = reviewsService.getReviews();
-        List<UserDTO> users = userService.getUsers();
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("users", users);
-        return "administrator/reviews";
+        reviewsService.deleteReviewsList(ids);
+        return "redirect:/admin/reviews";
     }
+
     @GetMapping("/exit")
     public String getExitPage() {
 

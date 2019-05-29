@@ -7,4 +7,8 @@ petrova  petrova  Controller      (3)
 
 Administrator
 Users: show, create, update, delete(soft delete)
+Reviews: show, delete
 
+Связи:
+@ManyToOne(+)
+@OneToOne(+-)

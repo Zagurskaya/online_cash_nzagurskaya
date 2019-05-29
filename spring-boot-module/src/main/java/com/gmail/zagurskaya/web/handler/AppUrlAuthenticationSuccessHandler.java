@@ -16,6 +16,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
+import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.CONTROLLER;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.KASSIR;
+
 public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AppUrlAuthenticationSuccessHandler.class);
@@ -47,13 +51,13 @@ public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccess
         boolean isAdministrator = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("Kassir")) {
+            if (authority.getAuthority().equals(KASSIR)) {
                 isKassir = true;
                 break;
-            } else if (authority.getAuthority().equals("Controller")) {
+            } else if (authority.getAuthority().equals(CONTROLLER)) {
                 isController = true;
                 break;
-            } else if (authority.getAuthority().equals("Administrator")) {
+            } else if (authority.getAuthority().equals(ADMIN)) {
                 isAdministrator = true;
                 break;
             }

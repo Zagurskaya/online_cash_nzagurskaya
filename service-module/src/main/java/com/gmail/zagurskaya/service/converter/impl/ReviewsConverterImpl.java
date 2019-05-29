@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReviewsConverterImpl implements ReviewsConverter {
-    @Autowired
-    private UserConverter userConverter;
+
+    private final UserConverter userConverter;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public ReviewsConverterImpl(UserConverter userConverter, UserRepository userRepository) {
+        this.userConverter = userConverter;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public ReviewsDTO toDTO(Reviews reviews) {
@@ -23,7 +27,6 @@ public class ReviewsConverterImpl implements ReviewsConverter {
         reviewsDTO.setDate(reviews.getDate());
         reviewsDTO.setUser(userConverter.toDTO(reviews.getUser()));
         reviewsDTO.setDescription(reviews.getDescription());
-        reviewsDTO.setIsNotOpen(reviews.getIsNotOpen());
         return reviewsDTO;
     }
 
@@ -34,7 +37,6 @@ public class ReviewsConverterImpl implements ReviewsConverter {
         reviews.setDate(reviewsDTO.getDate());
         reviews.setUser(userRepository.findById(reviewsDTO.getUser().getId()));
         reviews.setDescription(reviewsDTO.getDescription());
-        reviews.setIsNotOpen(reviewsDTO.getIsNotOpen());
         return reviews;
     }
 }

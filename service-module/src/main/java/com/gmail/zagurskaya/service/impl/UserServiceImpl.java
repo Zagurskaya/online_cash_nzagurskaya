@@ -1,16 +1,18 @@
 package com.gmail.zagurskaya.service.impl;
 
+import com.gmail.zagurskaya.repository.RoleRepository;
 import com.gmail.zagurskaya.repository.UserRepository;
+import com.gmail.zagurskaya.repository.model.Role;
 import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.converter.UserConverter;
 import com.gmail.zagurskaya.service.model.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.reflect.generics.repository.AbstractRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,15 +21,19 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = LogManager.getLogger(AbstractRepository.class);
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+
     private final UserConverter userConverter;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -48,11 +54,22 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         userRepository.persist(user);
     }
-//???????????????????????????
+
+    @Override
+    @Transactional
+    public void deleteUsersList(List<Long> ids) {
+        ids.stream().forEach(id -> {
+            delete(id);
+            logger.info("deleted user with id = " + id);
+        });
+    }
+
     @Override
     @Transactional
     public void delete(Long id) {
-
+        User user = userRepository.findById(id);
+        user.setIsNotActive(true);
+        userRepository.merge(user);
     }
 
     @Override
@@ -83,9 +100,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO getUserById(Long id) {
-            User loaded = (User) userRepository.findById(id);
-            UserDTO userDTO = userConverter.toDTO(loaded);
-            return userDTO;
+        User loaded = (User) userRepository.findById(id);
+        UserDTO userDTO = userConverter.toDTO(loaded);
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO updateUserRole(Long userId, Long roleId) {
+        User user = userRepository.findById(userId);
+        Role role = roleRepository.findById(roleId);
+        user.setRole(role);
+        userRepository.merge(user);
+        return userConverter.toDTO(user);
     }
 
     private String randomPasswordWithEncoder(int length) {
@@ -99,12 +125,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public String returnPasswordSameAsLogin(UserDTO userDTO) {
+
         return encoder(userDTO.getUsername());
     }
 
+
     private String encoder(String word) {
-        logger.info("New password encoder => " + passwordEncoder.encode(word));
-        return passwordEncoder.encode(word);
+        String encode = passwordEncoder.encode(word);
+        logger.info("New password encoder => " + encode);
+        return encode;
 
     }
 

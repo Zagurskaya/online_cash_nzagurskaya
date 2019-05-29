@@ -3,9 +3,7 @@ package com.gmail.zagurskaya.service.security;
 
 import com.gmail.zagurskaya.service.RoleService;
 import com.gmail.zagurskaya.service.UserService;
-import com.gmail.zagurskaya.service.exception.UsernameNotFoundException;
 import com.gmail.zagurskaya.service.model.UserDTO;
-import com.gmail.zagurskaya.service.model.RoleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
@@ -22,13 +20,6 @@ public class AppUserDetailService implements UserDetailsService {
 
     @Autowired
     private RoleService roleService;
-
-//    @Autowired
-//    public AppUserDetailService(UserService userService, RoleService roleService) {
-//        this.userService = userService;
-//        this.roleService = roleService;
-//    }
-
 
     @Override
     public UserDetails loadUserByUsername(String name) throws org.springframework.security.core.userdetails.UsernameNotFoundException {

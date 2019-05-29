@@ -8,10 +8,7 @@ public interface ReviewsService {
 
     List<ReviewsDTO> getReviews();
 
-    ReviewsDTO getReview(Long id);
-
-    void update(ReviewsDTO reviews);
-
     void delete(Long id);
 
+    void deleteReviewsList(List<Long> ids);
 }

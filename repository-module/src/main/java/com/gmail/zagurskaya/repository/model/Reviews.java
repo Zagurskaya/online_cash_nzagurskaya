@@ -3,12 +3,21 @@ package com.gmail.zagurskaya.repository.model;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+;
 import java.sql.Date;
 
 @Entity
 @Table(name = "reviews")
-@SQLDelete(sql = "UPDATE reviews SET isnotopen = 1 WHERE id=?")
+//@SQLDelete(sql = "UPDATE reviews SET isnotopen = 1 WHERE id=?")
 @Where(clause = "isnotopen = 0")
 public class Reviews {
     @Id
@@ -19,15 +28,12 @@ public class Reviews {
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user ;
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "isnotopen")
-    private boolean isNotOpen;
 
     public Long getId() {
         return id;
@@ -61,14 +67,6 @@ public class Reviews {
         this.description = description;
     }
 
-    public boolean getIsNotOpen() {
-        return isNotOpen;
-    }
-
-    public void setIsNotOpen(boolean notOpen) {
-        isNotOpen = notOpen;
-    }
-
     @Override
     public String toString() {
         return "Reviews{" +
@@ -76,7 +74,6 @@ public class Reviews {
                 ", date=" + date +
                 ", user=" + user +
                 ", description='" + description + '\'' +
-                ", isNotOpen=" + isNotOpen +
                 '}';
     }
 }

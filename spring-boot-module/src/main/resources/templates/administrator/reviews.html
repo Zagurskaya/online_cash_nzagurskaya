@@ -26,7 +26,7 @@
             <tr th:each="review, stat : ${reviews}">
                 <td th:text="${review.id}"></td>
                 <td th:text="${review.date}"></td>
-                <td th:text="${review.userId}"></td>
+                <td th:text="${review.user.username}"></td>
                 <td th:text="${review.description}"></td>
 
                 <td><input type="checkbox" th:name="ids"
